@@ -15,7 +15,7 @@ job "python_test" {
 
       config {
         command = "/bin/bash"
-        args = ["local/repo/nomad.sh", "main.py",  "--consul_host node-0.node.consul"]
+        args = ["local/repo/nomad.sh", "main.py",  "--consul_host", "node-0.node.consul"]
       }
     }
 
