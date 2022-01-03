@@ -15,7 +15,22 @@ job "python_test" {
 
       config {
         command = "/bin/bash"
-        args = ["local/repo/nomad.sh"]
+        args = ["local/repo/nomad.sh", "main.py",  "--consul_host node-0.node.consul"]
+      }
+    }
+
+    task "python_localhost" {
+      driver = "exec"
+      logs { }
+
+      artifact {
+        source = "git::https://github.com/t0k4rt/nomad-python"
+        destination = "local/repo"
+      }
+
+      config {
+        command = "/bin/bash"
+        args = ["local/repo/nomad.sh", "main.py"]
       }
     }
   }
