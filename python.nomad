@@ -15,7 +15,7 @@ job "python_test" {
 
       config {
         command = "/bin/bash"
-        args = ["-c", "pip3 install -r local/repo/requirements.txt && python3 local/repo/main.py"]
+        args = ["local/repo/nomad.sh"]
       }
     }
   }
