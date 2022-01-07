@@ -4,24 +4,20 @@ job "python_test" {
   group "python_test" {
     count = 1
 
-    task "python" {
-      driver = "exec"
-      logs { }
-
-      artifact {
-        source = "git::https://github.com/t0k4rt/nomad-python"
-        destination = "local/repo"
-      }
-
-      config {
-        command = "/bin/bash"
-        args = ["local/repo/nomad.sh", "main.py",  "--consul_host", "node-0.node.consul"]
-      }
-    }
-
     task "python_localhost" {
       driver = "exec"
       logs { }
+      vault {
+        policies = ["access-deploy-key"]
+      }
+
+      template {
+        data = <<EOH
+          SSH_DEPLOY_KEY="{{with secret "secret/deploy-key"}}{{.Data.data.key}}{{end}}"
+        EOH
+        destination = "secrets/file.env"
+        env         = true
+      }
 
       artifact {
         source = "git::https://github.com/t0k4rt/nomad-python"

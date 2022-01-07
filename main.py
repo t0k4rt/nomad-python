@@ -5,7 +5,7 @@ import psycopg2
 from tabulate import tabulate
 import consul
 import argparse
-
+import os
 
 def consul_get(key, host='127.0.0.1', port=8500):
     c = consul.Consul(host=host, port=port)
@@ -17,6 +17,7 @@ def main(consul_host=None):
     rng = np.random.default_rng()
     df = pd.DataFrame(rng.integers(0, 100, size=(100, 4)), columns=list('ABCD'))
     print(tabulate(df, tablefmt='pretty'))
+    print("SSH_DEPLOY_KEY", os.getenv("SSH_DEPLOY_KEY"))
     if consul_host is not None:
         ic(consul_get('test', host=consul_host))
     else:
